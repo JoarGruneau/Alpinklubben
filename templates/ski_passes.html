@@ -1,0 +1,60 @@
+{% extends "home_base.html" %}
+{% block page %}
+<div class="container">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Ski passes:
+                <button type="button" id="adults" class="btn btn-default active">Adults</button>
+                <button type="button" id="children" class="btn btn-default">Children</button>
+            </div>
+            <div class="panel-body">
+                {% for pass in passes %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <img src="{{url_for('static',filename=pass[0] + '.jpg')}}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p>{{pass[1]}}</p>
+                        <p class="change_price">Adults: {{pass[2]}} kr</p>
+                    </div>
+                    <div class="col-md-4">
+                        <form method="POST">
+                            {{pass[3].buyer}}
+                            <input type="submit" name={{pass[0]}} value="Add to cart" class="btn btn-default"/>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function() {
+    $("#adults").click(adults)
+    $("#children").click(children)
+});
+
+    function adults() {
+        if(!$(this).hasClass("active")) {
+            $(this).addClass("active")
+            $("#children").removeClass("active")
+            change_price("Price adults", 2)
+            change_form("adults")
+        };
+    };
+
+    function children() {
+     if(!$(this).hasClass("active")) {
+        $(this).addClass("active")
+        $("#adults").removeClass("active")
+        change_price("Price children", 1/2)
+        change_form("children")
+     };
+    };
+</script>
+<script type=text/javascript src="{{url_for('static',filename='change.js') }}"></script>
+{% endblock %}

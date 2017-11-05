@@ -1,0 +1,40 @@
+{% extends "home_base.html" %}
+{% block page %}
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+          <th>Item</th>
+          <th>Price</th>
+          <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody>
+    {% for item in shopping_cart %}
+      <tr id = {{item.id}}>
+        <td>{{item.description}}</td>
+        <td>{{item.price}}</td>
+        <td><a class="remove btn mini btn-danger" role="button" value={{item.id}}>Delete</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<script>
+$(function() {
+    $(".remove").click(remove)
+});
+
+function remove() {
+    var item = $(this).attr("value");
+    $.ajax({
+        type:'GET',
+        url: '/delete' + '/' + item,
+        success:function(result){
+            if(result['status'] === 1){
+                $('#'+ item).remove();
+            }
+        }
+    });
+};
+</script>
+{% endblock %}

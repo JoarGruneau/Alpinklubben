@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block navbar %}
+    <ul class="nav navbar-nav">
+      <li><a href="/logout">logout</a></li>
+    </ul>
+{% endblock %}
+{%block page %}
+    <div class="page_box">
+        <link rel="stylesheet" type="text/css" href="/static/style.css">
+        <h1 class="pad"><font color="blue">News blogg</font></h1>
+        <div class="pad">
+             {% for field in form.errors %}
+                {% for error in form.errors[field] %}
+                    <div>
+                        <font size="3" color="red">{{error}}</font>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+        <form method="post">
+            <div class="pad">
+                <p class="margin_small">{{ form.tittel.label }}</p>
+                <p class="margin_small">{{ form.tittel }}</p>
+             </div>
+            <div class="pad">
+                <p class="margin_small">{{ form.nyhet.label }}</p>
+                <p class="margin_small">{{ form.nyhet }}</p>
+             </div>
+            <div class="pad">
+                <p class="margin_small">{{ form.forfatter.label }}</p>
+                <p class="margin_small">{{ form.forfatter }}<input class="round" type="submit" value="Save news" /></p>
+            </div>
+        </form>
+            {% for entry in entries %}
+                <div class="news_box">
+                    <h2 id ={{ entry.id }} class="title">{{ entry.tittel }}</h2>
+                    <P class="margin_small"><span style="font-weight:bold">Forfatter:</span> {{entry.forfatter}}</P>
+                    <p class="margin_small"><span style="font-weight:bold">Dato:</span>Dato: {{entry.dato}}</p>
+                    <p>{{ entry.nyhet|safe}}</p>
+                </div>
+     
+                {% else %}
+                    <p>No entries yet. Add some!</p>
+            {% endfor %}
+    </div>
+{%endblock %}

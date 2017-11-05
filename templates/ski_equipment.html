@@ -1,0 +1,64 @@
+{% extends "home_base.html" %}
+{% block page %}
+<div class="container">
+    <div class="panel-group">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Ski packages:
+                <button type="button" id="set_hours" class="btn btn-default active">Rent per hour</button>
+                <button type="button" id="set_days" class="btn btn-default">Rent per day</button>
+            </div>
+            <div class="panel-body">
+                {% for package in packages %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="thumbnail">
+                            <img src="{{url_for('static',filename=package[0] + '.jpg')}}" alt="">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <p>{{package[1]}}</p>
+                        <p class="change_price">Price per hour: {{package[2]}} kr</p>
+                    </div>
+                    <div class="col-md-4">
+                        <form method="POST">
+                            {{package[3].rent_form}}
+                            <p class="change_text">Hours: </p>
+                            {{package[3].duration}}
+                            <input type="submit" name={{package[0]}} value="Add to cart" class="btn btn-default"/>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(function() {
+    $("#set_hours").click(set_hours)
+    $("#set_days").click(set_days)
+});
+
+    function set_hours() {
+        if(!$(this).hasClass("active")) {
+            $(this).addClass("active")
+            $("#set_days").removeClass("active")
+            change_text("Hours:")
+            change_price("Price per hour", 1/6)
+            change_form("hours")
+        };
+    };
+
+    function set_days() {
+     if(!$(this).hasClass("active")) {
+        $(this).addClass("active")
+        $("#set_hours").removeClass("active")
+        change_text("Days:")
+        change_price("Price per day", 6)
+        change_form("days")
+     };
+    };
+</script>
+<script type=text/javascript src="{{url_for('static',filename='change.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,52 @@
+div.pad {
+    padding: 10px;
+}
+
+p.margin_small {
+ margin: 5px
+}
+
+#map {
+    height: 400px;
+    width: 800px;
+}
+#background {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+div.thumbnail {
+   width:150px;
+   height:150px;
+}
+
+div.my_box {
+    width: 500px;
+    padding: 10px;
+    border: 2px solid #90EE90;
+    border-radius: 20px;
+    margin: 10px; 
+}
+
+div.page_box {
+    width: 600px;
+    padding: 10px;
+    border: 2px solid #B0C4DE;
+    border-radius: 20px;
+    margin: 0; 
+}
+
+
+h1.pad {
+    margin-left: 10px
+}
+
+input.round {
+    border: 1px solid;
+    border-radius: 5px;
+    box-shadow: inset 0px 0px 1px 1px rgba(9,0,0,0.4)
+}
+
+h2 {
+    color: #1E90FF
+}
