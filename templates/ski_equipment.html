@@ -7,6 +7,7 @@
                 Ski packages:
                 <button type="button" id="set_hours" class="btn btn-default active">Rent per hour</button>
                 <button type="button" id="set_days" class="btn btn-default">Rent per day</button>
+                <button type="button" id="set_weeks" class="btn btn-default">Rent per week</button>
             </div>
             <div class="panel-body">
                 {% for package in packages %}
@@ -38,25 +39,54 @@
 $(function() {
     $("#set_hours").click(set_hours)
     $("#set_days").click(set_days)
+    $("#set_weeks").click(set_weeks)
 });
 
     function set_hours() {
         if(!$(this).hasClass("active")) {
+
+            if($("#set_days").hasClass("active")) {
+                change_price("Price per day", 1/6)
+            } else {
+                change_price("Price per day", 1/20)
+            }
+
+            $(".active").removeClass("active")
             $(this).addClass("active")
-            $("#set_days").removeClass("active")
             change_text("Hours:")
-            change_price("Price per hour", 1/6)
             change_form("hours")
         };
     };
 
     function set_days() {
      if(!$(this).hasClass("active")) {
+
+        if($("#set_hours").hasClass("active")) {
+            change_price("Price per day", 6)
+        } else {
+            change_price("Price per day", 6/20)
+        }
+
+        $(".active").removeClass("active")
         $(this).addClass("active")
-        $("#set_hours").removeClass("active")
         change_text("Days:")
-        change_price("Price per day", 6)
         change_form("days")
+     };
+    };
+
+    function set_weeks() {
+     if(!$(this).hasClass("active")) {
+
+        if($("#set_hours").hasClass("active")) {
+            change_price("Price per day", 20)
+        } else {
+            change_price("Price per day", 20/6)
+        }
+
+        $(".active").removeClass("active")
+        $(this).addClass("active")
+        change_text("Weeks:")
+        change_form("weeks")
      };
     };
 </script>

@@ -4,31 +4,59 @@ from flask import g
 from app import app
 
 
-def insert_user(username, email, salted_hashed_password):
+def insert_user(first_name, last_name, username, email, salted_hashed_password):
     db = get_db()
-    db.execute('insert into users (username, email, password) values (?, ?, ?)',
-               [username, email, salted_hashed_password])
+    db.execute('insert into users (first_name, last_name, username, email, hashed_password) values (?, ?, ?, ?, ?)',
+               [first_name, last_name, username, email, str(salted_hashed_password)])
     db.commit()
     # print(db.execute('select * from users').fetchall())
 
 
 def get_user(username):
     db = get_db()
-    cur = db.execute('select username, password from users where username = ?', [username])
+    cur = db.execute('select * from users where username = ?', [username])
+    # a = cur.fetchall()
+    # print(list(a))
     return cur.fetchall()
+
+
+def get_user_id(username):
+    return get_user(username)[0][0]
+
+
+def update_user(old_username, first_name, last_name, username, email):
+    db = get_db()
+    user_id = get_user_id(old_username)
+    db.execute("update users set first_name =?, last_name =?, username =?, email =? where id =?",
+               (first_name, last_name, username, email, user_id))
+    db.commit()
+
+
+def get_members():
+    db = get_db()
+    cur = db.execute('select first_name, last_name, email from users')
+    return cur.fetchall()
+
+
+def update_password(username, hashed_password):
+    db = get_db()
+    user_id = get_user_id(username)
+    db.execute("update users set hashed_password =?where id =?",
+               (hashed_password, user_id))
+    db.commit()
 
 
 def insert_into_cart(username, description, price):
     db = get_db()
     db.execute('insert into cart (username, description, price) values (?, ?, ?)',
-               [username, description, price])
+               [get_user_id(username), description, price])
     db.commit()
     # print(db.execute('select * from cart').fetchall())
 
 
 def get_cart(username):
     db = get_db()
-    cur = db.execute('select * from cart')
+    cur = db.execute('select * from cart where username = ?', [get_user_id(username)])
     # cur = db.execute('select description, price from cart where username = ?', [username])
     return cur.fetchall()
 
